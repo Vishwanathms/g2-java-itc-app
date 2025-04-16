@@ -1,0 +1,30 @@
+# templates/deployment.yaml
+{{- range $key, $service := .Values.services }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $service.name }}-deployment
+  namespace: {{ $.Values.namespace }}
+spec:
+  replicas: {{ $.Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ $service.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ $service.name }}
+    spec:
+      containers:
+      - name: {{ $service.name }}
+        image: {{ $service.image }}
+        ports:
+        - containerPort: {{ $service.port }}
+        env:
+        {{- range $envKey, $envValue := $service.env }}
+        - name: {{ $envKey }}
+          value: {{ $envValue | quote }}
+        {{- end }}
+      restartPolicy: Always
+{{- end }}

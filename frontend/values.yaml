@@ -1,0 +1,8 @@
+# values.yaml
+namespace: group2-h
+replicaCount: 1
+frontend:
+  name: frontend
+  image: 124355663661.dkr.ecr.ap-northeast-3.amazonaws.com/g2/shareidea:frontendv10
+  containerPort: 3000
+  servicePort: 80
